@@ -1,21 +1,11 @@
 import * as React from "react";
-
-// const generateLevel = () => {
-//   let points = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
-//   for (let i = points.length - 1; i > 0; i--) {
-//     let j = Math.floor(Math.random() * i);
-//     let k = points[i];
-//     points[i] = points[j];
-//     points[j] = k;
-//   }
-//   return points;
-// };
+import { makeGuess, generateLevel } from "../utils/gameUtils";
 
 const initialState = {
-  level: [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8],
+  level: generateLevel(),
   activeCard: null,
-  previous: null,
-  current: null,
+  previousGuess: null,
+  currentGuess: null,
   guessed: [],
 };
 
@@ -24,23 +14,13 @@ function gameReducer(state, action) {
     case "setActiveCard": {
       return { ...state, activeCard: action.payload };
     }
-    case "setCurrent": {
-      const midState = {
+    case "setCurrentGuess": {
+      return {
         ...state,
-        previous: state.current,
-        current: action.payload,
+        previousGuess: state.currentGuess,
+        currentGuess: action.payload,
+        guessed: makeGuess(state.guessed, state.currentGuess, action.payload),
       };
-      if (midState.previous === midState.current) {
-        const newState = {
-          ...midState,
-          guessed: [...midState.guessed, action.payload],
-        };
-        return newState;
-      }
-      return midState;
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
     }
   }
 }

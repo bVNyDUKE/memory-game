@@ -7,11 +7,13 @@ const Card = ({ val, id }) => {
   const [flipped, setFlipped] = useState(false);
   const [guessed, setGuessed] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (state.guessed.includes(val)) {
       setGuessed(true);
+      setFlipped(true);
     }
-  }, [state.guessed, val]);
+  });
 
   useEffect(() => {
     if (state.activeCard !== id) {
@@ -20,9 +22,13 @@ const Card = ({ val, id }) => {
   }, [state.activeCard, id]);
 
   const clickHandle = () => {
-    !guessed && setFlipped(!flipped);
-    dispatch({ type: "setActiveCard", payload: id });
-    dispatch({ type: "setCurrent", payload: val });
+    if (!guessed) {
+      setFlipped(!flipped);
+      if (state.activeCard !== id) {
+        dispatch({ type: "setActiveCard", payload: id });
+        dispatch({ type: "setCurrentGuess", payload: val });
+      }
+    }
   };
 
   const { transform, opacity } = useSpring({
@@ -37,7 +43,7 @@ const Card = ({ val, id }) => {
         className="flex items-center justify-center bg-slate-400 text-black absolute w-full h-full"
         style={{ opacity: opacity.to((o) => 1 - o), transform }}
       >
-        X
+        <span>X</span>
       </a.div>
       <a.div
         className="flex items-center w-full h-full border border-gray-300 justify-center absolute"
@@ -48,7 +54,7 @@ const Card = ({ val, id }) => {
           rotateY: "180deg",
         }}
       >
-        {val}
+        <span>{val}</span>
       </a.div>
     </div>
   );
@@ -60,9 +66,9 @@ export default function Home() {
   return (
     <div className="flex justify-center items-center p-5 min-h-screen">
       <div className="grid grid-cols-4 grid-rows-4 gap-2">
-        {state.level.map((i, index) => (
-          <div className="w-20 h-20" key={index + i}>
-            <Card val={i} id={index + i} />
+        {state.level.map((cell) => (
+          <div className="w-20 h-20" key={cell.id}>
+            <Card val={cell.val} id={cell.id} />
           </div>
         ))}
       </div>
