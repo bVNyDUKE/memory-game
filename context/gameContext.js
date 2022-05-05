@@ -22,6 +22,12 @@ function gameReducer(state, action) {
         guessed: makeGuess(state.guessed, state.currentGuess, action.payload),
       };
     }
+    case "reset": {
+      return {
+        ...initialState,
+        level: generateLevel(),
+      };
+    }
   }
 }
 
