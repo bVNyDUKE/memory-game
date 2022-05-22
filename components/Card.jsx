@@ -7,7 +7,6 @@ const Card = ({ val, id }) => {
   const [flipped, setFlipped] = useState(false);
   const [guessed, setGuessed] = useState(false);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (state.guessed.includes(val)) {
       setGuessed(true);
