@@ -2,7 +2,7 @@ import * as React from "react";
 import { makeGuess, generateLevel } from "../utils/gameUtils";
 
 const initialState = {
-  level: generateLevel(),
+  level: [],
   activeCard: null,
   previousGuess: null,
   currentGuess: null,
