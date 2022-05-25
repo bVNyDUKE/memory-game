@@ -1,29 +1,24 @@
 import { useSpring, a } from "@react-spring/web";
-import { useState, memo, useEffect } from "react";
+import { useMemo } from "react";
 import { useGame } from "../context/gameContext";
 
 const Card = ({ val, id }) => {
   const { state, dispatch } = useGame();
-  const [flipped, setFlipped] = useState(false);
-  const [guessed, setGuessed] = useState(false);
+  const { guessed: guessedCards, activeCard } = state;
 
-  useEffect(() => {
-    if (state.guessed.includes(val)) {
-      setGuessed(true);
-      setFlipped(true);
-    }
-  });
+  const guessed = useMemo(
+    () => guessedCards.includes(val),
+    [guessedCards, val]
+  );
 
-  useEffect(() => {
-    if (state.activeCard !== id) {
-      setFlipped(false);
-    }
-  }, [state.activeCard, id]);
+  const flipped = useMemo(
+    () => activeCard === id || guessed,
+    [id, activeCard, val]
+  );
 
   const handleClick = () => {
     if (!guessed) {
-      setFlipped(!flipped);
-      if (state.activeCard !== id) {
+      if (activeCard !== id) {
         dispatch({ type: "setActiveCard", payload: id });
         dispatch({ type: "setCurrentGuess", payload: val });
       }
@@ -59,4 +54,4 @@ const Card = ({ val, id }) => {
   );
 };
 
-export default memo(Card);
+export default Card;
