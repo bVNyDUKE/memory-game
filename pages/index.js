@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { useGame } from "../context/gameContext";
 import Card from "../components/Card";
 
@@ -9,8 +9,6 @@ export default function Home() {
   } = useGame();
 
   const won = useMemo(() => guessed.length === 8, [guessed]);
-
-  useEffect(() => dispatch({ type: "reset" }), []);
 
   return (
     <div className="flex justify-center items-center p-5 min-h-screen">

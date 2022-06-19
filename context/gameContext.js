@@ -2,7 +2,7 @@ import * as React from "react";
 import { makeGuess, generateLevel } from "../utils/gameUtils";
 
 const initialState = {
-  level: [],
+  level: generateLevel(),
   activeCard: null,
   previousGuess: null,
   currentGuess: null,
@@ -25,7 +25,7 @@ function gameReducer(state, action) {
     case "reset": {
       return {
         ...initialState,
-        level: generateLevel(),
+        level: generateLevel()
       };
     }
   }
