@@ -13,7 +13,7 @@ const Card = ({ val, id }) => {
 
   const flipped = useMemo(
     () => activeCard === id || guessed,
-    [id, activeCard, val]
+    [id, activeCard, guessed]
   );
 
   const handleClick = () => {

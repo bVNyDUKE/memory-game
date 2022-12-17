@@ -11,7 +11,7 @@ export default function Home() {
   const won = useMemo(() => guessed.length === 8, [guessed]);
 
   return (
-    <div className="flex justify-center items-center p-5 min-h-screen">
+    <div className="flex bg-gray-100 justify-center items-center p-5 min-h-screen">
       {won && (
         <div className="flex flex-col justify-center items-center">
           <div className="text-4xl text-emerald-700">Congrats!!</div>
